@@ -1,0 +1,11 @@
+{
+  "name": "Project Week Node.js Back End",
+  "description": "A barebones Node.js app using Express",
+  "repository": "https://github.com/cwissy/examples_back-end-project-week",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "express", "postgres"],
+  "addons": ["heroku-postgresql:hobby-dev", "papertrail"],
+  "scripts": {
+    "postdeploy": "npm run db:deploy"
+  }
+}
