@@ -11,6 +11,7 @@
     "db:populateTagsTable": "node -r dotenv/config ./db/scripts/tags/populateTagsTable.js",
     "db:populateJobTagsTable": "node -r dotenv/config ./db/scripts/jobTags/populateJobTagsTable.js",
     "db:populateLocationsTable": "node -r dotenv/config ./db/scripts/locations/populateLocationsTable.js",
+    "db:populateReviewsTable": "node -r dotenv/config ./db/scripts/reviews/populateReviewsTable.js",
     "dev": "nodemon -r dotenv/config ./bin/www.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
