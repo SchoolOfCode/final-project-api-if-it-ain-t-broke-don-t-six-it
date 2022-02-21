@@ -4,7 +4,7 @@ import {
   getAllJobsByLocation,
   createJob,
   createLocation,
-  createJobTags,
+  // createJobTags,
 } from "../models/jobs.js";
 
 const router = express.Router();
