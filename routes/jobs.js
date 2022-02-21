@@ -32,14 +32,30 @@ router.get("/:location", async function (req, res) {
 });
 
 /*Create*/
-router.post("/", async function (req, res) {
+let job;
+router.post("/", async function (req, res, next) {
   try {
-    const job = await createJob(req.body);
+    job = await createJob(req.body);
 
     res.json({
       success: true,
       payload: job,
     });
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/", async function (req, res, next) {
+  try {
+    const location = await createLocation(req.body, job.job_id);
+
+    res.json({
+      success: true,
+      payload: job,
+    });
+    next();
   } catch (err) {
     console.log(err);
   }

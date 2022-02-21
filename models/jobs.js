@@ -47,3 +47,21 @@ export async function createJob(job) {
   console.log(result.rows[0]);
   return result.rows[0];
 }
+
+export async function createLocation(locations, job_id) {
+  const result = await query(
+    `INSERT INTO locations (job_id, number, name, street, city, county, postcode) VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *`,
+    [
+      locations.job_id,
+      locations.number,
+      locations.name,
+      locations.street,
+      locations.city,
+      locations.county,
+      locations.postcode,
+    ]
+  );
+  console.log(result);
+  return result.rows[0];
+}
