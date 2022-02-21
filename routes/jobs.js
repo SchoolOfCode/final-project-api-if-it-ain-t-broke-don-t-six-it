@@ -1,9 +1,9 @@
 import express from "express";
-import { getAllJobs, getAllJobsByLocation } from "../models/jobs.js";
+import { getAllJobs, getAllJobsByLocation, createJob } from "../models/jobs.js";
 
 const router = express.Router();
 
-/* GET users listing. */
+/* GET */
 router.get("/", async function (req, res) {
   try {
     const jobs = await getAllJobs();
@@ -25,6 +25,20 @@ router.get("/:location", async function (req, res) {
     res.json({
       success: true,
       payload: jobs,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+/*Create*/
+router.post("/", async function (req, res) {
+  try {
+    const job = await createJob(req.body);
+
+    res.json({
+      success: true,
+      payload: job,
     });
   } catch (err) {
     console.log(err);
