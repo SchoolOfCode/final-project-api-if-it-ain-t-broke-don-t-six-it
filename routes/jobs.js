@@ -31,4 +31,6 @@ router.get("/:location", async function (req, res) {
   }
 });
 
+router.get("/",)
+
 export default router;
