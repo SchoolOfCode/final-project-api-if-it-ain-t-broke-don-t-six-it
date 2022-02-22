@@ -4,6 +4,7 @@ import {
   getAllJobsByLocation,
   createJob,
   createLocation,
+  getJobTagId,
   // createJobTags,
 } from "../models/jobs.js";
 
@@ -50,23 +51,32 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-// let tags;
-// router.post("/", async function (req, res, next) {
-//   try {
-//     tags = await createJobTags(req.body, job.job_id);
-//     next();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+let tagId;
+router.post("/", async function (req, res, next) {
+  try {
+    tagId = await getJobTagId(req.body.tags);
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/", async function (req, res, next) {
+  try {
+    const createdTagId = await createJobTag(job.job_id, tagId);
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 router.post("/", async function (req, res) {
   try {
     const location = await createLocation(req.body, job.job_id);
-
+    let tags = req.body.tags;
     res.json({
       success: true,
-      payload: { job, location },
+      payload: { job, location, tags },
     });
   } catch (err) {
     console.log(err);

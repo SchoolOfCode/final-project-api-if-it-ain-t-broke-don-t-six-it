@@ -19,7 +19,7 @@ export async function createJob(job) {
     date,
     description,
     rate_of_pay,
-    requiement,
+    requirement,
     status,
     title,
     user_id,
@@ -29,13 +29,13 @@ export async function createJob(job) {
   } = job;
 
   const result = await query(
-    `INSERT INTO jobs(accepted_user_id, date, description, rate_of_pay, requiement, status, title, user_id, user_image, user_name, user_rating) VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *;`,
+    `INSERT INTO jobs(accepted_user_id, date, description, rate_of_pay, requirement, status, title, user_id, user_image, user_name, user_rating) VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *;`,
     [
       accepted_user_id,
       date,
       description,
       rate_of_pay,
-      requiement,
+      requirement,
       status,
       title,
       user_id,
@@ -66,6 +66,21 @@ export async function createLocation(locations, job_id) {
   return result.rows[0];
 }
 
-export async function createJobTags(tags, job_id) {
-  const result = await query(`SELECT tag_id FROM tag WHERE tag=$1`, []);
+export async function getJobTagId(tags) {
+  const updatedTagsId = tags.map(async (tag) => {
+    const result = await query(`SELECT tag_id FROM tag WHERE tag=$1`, [tag]);
+    return result.rows[0];
+  });
+  return updatedTagsId;
+}
+
+export async function createJobTag(job_id, tag_id) {
+  const data = tag_id.map(async (tags) => {
+    const result = await query(
+      `INSERT INTO job_tag (job_id, tag_id) VALUES ($1, $2)
+      RETURNING *;`,
+      [job_id, tags]
+    );
+    return result.rows[0];
+  });
 }
