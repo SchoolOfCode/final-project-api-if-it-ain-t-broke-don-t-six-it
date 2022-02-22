@@ -5,7 +5,8 @@ import {
   createJob,
   createLocation,
   getJobTagId,
-  // createJobTags,
+  createJobTag,
+  getAllJobsByLocationAndKeyword,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -26,9 +27,30 @@ router.get("/", async function (req, res) {
 
 router.get("/:location", async function (req, res) {
   try {
+    let jobs;
     let location = req.params.location;
-    const jobs = await getAllJobsByLocation(location);
-    console.log(jobs);
+
+    if (req.query.keyword !== undefined) {
+      jobs = await getAllJobsByLocation(location);
+    } else {
+      const keyword = req.query.keyword;
+      jobs = await getAllJobsByLocationAndKeyword(location);
+    }
+    res.json({
+      success: true,
+      payload: jobs,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/", async function (req, res) {
+  try {
+    if (req.query.keywords !== undefined) {
+    } else {
+    }
+    const jobs = await getAllJobsBy();
     res.json({
       success: true,
       payload: jobs,

@@ -69,13 +69,13 @@ export async function createLocation(locations, job_id) {
 export async function getJobTagId(tags) {
   const updatedTagsId = tags.map(async (tag) => {
     const result = await query(`SELECT tag_id FROM tag WHERE tag=$1`, [tag]);
-    return result.rows[0];
+    return result.rows[0].tag_id;
   });
-  return updatedTagsId;
+  return Promise.all(updatedTagsId);
 }
 
 export async function createJobTag(job_id, tag_id) {
-  const data = tag_id.map(async (tags) => {
+  const data = await tag_id.map(async (tags) => {
     const result = await query(
       `INSERT INTO job_tag (job_id, tag_id) VALUES ($1, $2)
       RETURNING *;`,
@@ -84,3 +84,5 @@ export async function createJobTag(job_id, tag_id) {
     return result.rows[0];
   });
 }
+
+export async function getAllJobsByLocationAndKeyword(){}
