@@ -7,6 +7,7 @@ import cors  from 'cors';
 import logger  from 'morgan';
 
 import jobsRouter  from './routes/jobs.js';
+import tagsRouter from './routes/tags.js'
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/jobs', jobsRouter);
+app.use("/tags",tagsRouter)
 
 app.use(function (req, res, next) {
   res.status(404).json({message: "We couldn't find what you were looking for 😞"})
