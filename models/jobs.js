@@ -66,7 +66,6 @@ export async function createLocation(locations, job_id) {
   return result.rows[0];
 }
 
-
-// export async function createJobTags(tags,job_id) {
-  
-// }
+export async function createJobTags(tags, job_id) {
+  const result = await query(`SELECT tag_id FROM tag WHERE tag=$1`, []);
+}

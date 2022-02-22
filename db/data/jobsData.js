@@ -4,7 +4,7 @@ export const jobsData = [
     date: 18022022,
     description: "pick up shopping",
     rate_of_pay: 25,
-    requiement: "have a car",
+    requirement: "have a car",
     status: "approved",
     title: "shopper needed",
     user_id: "1",
