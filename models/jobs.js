@@ -79,9 +79,6 @@ export async function createJobTag(job_id, tag_id) {
   });
 }
 
-<<<<<<< HEAD
-export async function getAllJobsByLocationAndKeyword() {}
-=======
 export async function getAllJobsByLocationAndKeyword(location, keyword) {
   const result = await query(
     `SELECT DISTINCT  * FROM jobs 
@@ -104,4 +101,3 @@ WHERE tag = $1 ;`,
   );
   return result.rows;
 }
->>>>>>> 30228483aa58d0b3e98c2ee662faf2b012d644cc
