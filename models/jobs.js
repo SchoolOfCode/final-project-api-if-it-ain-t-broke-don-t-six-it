@@ -69,11 +69,14 @@ export async function createLocation(locations, job_id) {
 }
 
 export async function createJobTag(job_id, tag_id) {
+  if (tag_id === undefined || tag_id.length === 0) {
+    return;
+  }
   const data = await tag_id.map(async (tag) => {
     const result = await query(
       `INSERT INTO job_tag (job_id, tag_id) VALUES ($1, $2)
       RETURNING *;`,
-      [job_id, tag.tag_id]
+      [job_id, tag]
     );
     return result.rows[0];
   });
