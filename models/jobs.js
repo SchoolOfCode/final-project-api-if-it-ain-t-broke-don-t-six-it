@@ -79,4 +79,29 @@ export async function createJobTag(job_id, tag_id) {
   });
 }
 
+<<<<<<< HEAD
 export async function getAllJobsByLocationAndKeyword() {}
+=======
+export async function getAllJobsByLocationAndKeyword(location, keyword) {
+  const result = await query(
+    `SELECT DISTINCT  * FROM jobs 
+    INNER JOIN locations ON jobs.job_id = locations.job_id 
+    INNER JOIN job_tag ON jobs.job_id = job_tag.job_id 
+    INNER JOIN tag ON tag.tag_id = job_tag.tag_id
+    WHERE city = $1 AND tag = $2 ;`,
+    [location, keyword]
+  );
+  return result.rows;
+}
+
+export async function getAllJobsByKeyword(keyword) {
+  const result = await query(
+    `SELECT DISTINCT  * FROM jobs 
+INNER JOIN job_tag ON jobs.job_id = job_tag.job_id 
+INNER JOIN tag ON tag.tag_id = job_tag.tag_id
+WHERE tag = $1 ;`,
+    [keyword]
+  );
+  return result.rows;
+}
+>>>>>>> 30228483aa58d0b3e98c2ee662faf2b012d644cc
