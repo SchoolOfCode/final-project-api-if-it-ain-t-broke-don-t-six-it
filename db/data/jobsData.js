@@ -1,7 +1,7 @@
 export const jobsData = [
   {
     accepted_user_id: "3",
-    date: 18022022,
+    date: "2008-11-11 11:12:01",
     description: "pick up shopping",
     rate_of_pay: 25,
     requirement: "have a car",

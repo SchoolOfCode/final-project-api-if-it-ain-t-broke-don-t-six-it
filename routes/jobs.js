@@ -28,7 +28,7 @@ router.get("/:location", async function (req, res) {
   try {
     let jobs;
     let location = req.params.location;
-    
+
     if (req.query.keyword !== undefined) {
       jobs = await getAllJobsByLocation(location);
     } else {
@@ -71,7 +71,6 @@ router.post("/", async function (req, res, next) {
     console.log(err);
   }
 });
-
 
 router.post("/", async function (req, res, next) {
   try {

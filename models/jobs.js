@@ -1,7 +1,9 @@
 import query from "../db/connection.js";
 
 export async function getAllJobs() {
-  const result = await query(`SELECT * FROM jobs;`);
+  const result = await query(
+    `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id;`
+  );
   return result.rows;
 }
 
@@ -27,7 +29,7 @@ export async function createJob(job) {
     user_name,
     user_rating,
   } = job;
-
+  date = date.toISOString();
   const result = await query(
     `INSERT INTO jobs(accepted_user_id, date, description, rate_of_pay, requirement, status, title, user_id, user_image, user_name, user_rating) VALUES ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *;`,
     [
@@ -77,4 +79,4 @@ export async function createJobTag(job_id, tag_id) {
   });
 }
 
-export async function getAllJobsByLocationAndKeyword(){}
+export async function getAllJobsByLocationAndKeyword() {}
