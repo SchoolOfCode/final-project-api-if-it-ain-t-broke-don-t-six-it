@@ -1,16 +1,19 @@
 import query from "../db/connection.js";
 
-export async function getAllJobs() {
+export async function getAllJobs(offSet) {
   const result = await query(
-    `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id;`
+    `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id
+    LIMIT 5 OFFSET $1;`,
+    [offSet]
   );
   return result.rows;
 }
 
-export async function getAllJobsByLocation(location) {
+export async function getAllJobsByLocation(location, offSet) {
   const result = await query(
-    `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id WHERE city = $1;`,
-    [location]
+    `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id WHERE city = $1
+    LIMIT 5 OFFSET $1;`,
+    [location, offSet]
   );
   return result.rows;
 }
@@ -82,25 +85,31 @@ export async function createJobTag(job_id, tag_id) {
   });
 }
 
-export async function getAllJobsByLocationAndKeyword(location, keyword) {
+export async function getAllJobsByLocationAndKeyword(
+  location,
+  keyword,
+  offSet
+) {
   const result = await query(
     `SELECT DISTINCT  * FROM jobs 
     INNER JOIN locations ON jobs.job_id = locations.job_id 
     INNER JOIN job_tag ON jobs.job_id = job_tag.job_id 
     INNER JOIN tag ON tag.tag_id = job_tag.tag_id
-    WHERE city = $1 AND tag = $2 ;`,
-    [location, keyword]
+    WHERE city = $1 AND tag = $2 
+    LIMIT 5 OFFSET $3;`,
+    [location, keyword, offSet]
   );
   return result.rows;
 }
 
-export async function getAllJobsByKeyword(keyword) {
+export async function getAllJobsByKeyword(keyword, offSet) {
   const result = await query(
     `SELECT DISTINCT  * FROM jobs 
 INNER JOIN job_tag ON jobs.job_id = job_tag.job_id 
 INNER JOIN tag ON tag.tag_id = job_tag.tag_id
-WHERE tag = $1 ;`,
-    [keyword]
+WHERE tag = $1 
+LIMIT 5 OFFSET $2;`,
+    [keyword, offSet]
   );
   return result.rows;
 }

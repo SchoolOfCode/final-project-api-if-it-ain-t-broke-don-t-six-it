@@ -13,13 +13,14 @@ const router = express.Router();
 
 /* GET */
 router.get("/", async function (req, res) {
+  let offSet = req.query.offSet;
   try {
     let jobs;
     if (req.query.keyword === undefined) {
-      jobs = await getAllJobs();
+      jobs = await getAllJobs(offSet);
     } else {
       const keyword = req.query.keyword;
-      jobs = await getAllJobsByKeyword(keyword);
+      jobs = await getAllJobsByKeyword(keyword, offSet);
     }
     console.log(jobs);
 
@@ -33,15 +34,16 @@ router.get("/", async function (req, res) {
 });
 
 router.get("/:location", async function (req, res) {
+  let offSet = req.query.offSet;
   try {
     let jobs;
     let location = req.params.location;
 
     if (req.query.keyword === undefined) {
-      jobs = await getAllJobsByLocation(location);
+      jobs = await getAllJobsByLocation(location, offSet);
     } else {
       const keyword = req.query.keyword;
-      jobs = await getAllJobsByLocationAndKeyword(location, keyword);
+      jobs = await getAllJobsByLocationAndKeyword(location, keyword, offSet);
     }
     res.json({
       success: true,
