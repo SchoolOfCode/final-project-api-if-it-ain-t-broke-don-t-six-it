@@ -3,7 +3,7 @@ import query from "../db/connection.js";
 export async function getAllJobs(offSet) {
   const result = await query(
     `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id
-    ORDER BY timestamp DESC LIMIT 5 OFFSET $1 ;`,
+    LIMIT 5 OFFSET $1 ;`,
     [offSet]
   );
   return result.rows;
