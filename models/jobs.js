@@ -12,7 +12,7 @@ export async function getAllJobs(offSet) {
 export async function getAllJobsByLocation(location, offSet) {
   const result = await query(
     `SELECT * FROM jobs INNER JOIN locations ON jobs.job_id = locations.job_id WHERE city = $1
-    LIMIT 5 OFFSET $1;`,
+    LIMIT 5 OFFSET $2;`,
     [location, offSet]
   );
   return result.rows;
