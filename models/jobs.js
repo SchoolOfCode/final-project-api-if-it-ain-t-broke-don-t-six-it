@@ -107,9 +107,34 @@ export async function getAllJobsByKeyword(keyword, offSet) {
     `SELECT DISTINCT  * FROM jobs 
 INNER JOIN job_tag ON jobs.job_id = job_tag.job_id 
 INNER JOIN tag ON tag.tag_id = job_tag.tag_id
+INNER JOIN locations on jobs.job_id = locations.job_id
 WHERE tag = $1 
 LIMIT 5 OFFSET $2;`,
     [keyword, offSet]
   );
+  return result.rows;
+}
+
+export async function getJobDataById(jobId) {
+  const result = await query(
+    `SELECT * FROM jobs 
+  INNER JOIN locations ON jobs.job_id = locations.job_id
+  WHERE jobs.job_id = $1
+  `,
+    [jobId]
+  );
+  console.log(result.rows);
+  return result.rows;
+}
+
+export async function getTagsById(jobId) {
+  const result = await query(
+    `SELECT * FROM tag
+   INNER JOIN job_tag ON tag.tag_id = job_tag.tag_id
+   WHERE job_tag.job_id = $1
+   `,
+    [jobId]
+  );
+  console.log(result.rows);
   return result.rows;
 }
