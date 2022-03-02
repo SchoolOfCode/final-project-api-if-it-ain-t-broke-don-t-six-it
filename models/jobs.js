@@ -122,6 +122,7 @@ export async function getJobDataById(jobId) {
   `,
     [jobId]
   );
+  console.log(result.rows);
   return result.rows;
 }
 
@@ -133,4 +134,6 @@ export async function getTagsById(jobId) {
    `,
     [jobId]
   );
+  console.log(result.rows);
+  return result.rows;
 }

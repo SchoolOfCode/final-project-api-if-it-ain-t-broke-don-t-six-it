@@ -8,6 +8,7 @@ import {
   getAllJobsByLocationAndKeyword,
   getAllJobsByKeyword,
   getJobDataById,
+  getTagsById,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -55,26 +56,31 @@ router.get("/:location", async function (req, res) {
   }
 });
 
-let jobListingData;
-router.get("/:jobId", async function (req, res, next) {
+router.get("/:jobId", async function (req, res) {
   const jobId = req.params.jobId;
+  console.log(jobId);
   try {
-    jobListingData = await getJobDataById(jobId);
-    next();
+    const jobTagsData = await getTagsById(jobId);
+    console.log(jobTagsData);
+    const jobListingData = await getJobDataById(jobId);
+    res.json({ success: true, payload: { jobTagsData, jobListingData } });
   } catch (err) {
     res.json(err.stack);
   }
 });
-let jobTagsData;
-router.get("/:jobId", async function (req, res, next) {
-  const jobId = req.params.jobId;
-  try {
-    jobTagsData = await getTagsById(jobId);
-    next();
-  } catch (err) {
-    res.json(err.stack);
-  }
-});
+// let jobTagsData;
+// router.get("/:jobId", async function (req, res) {
+//   const jobId = req.params.jobId;
+//   try {
+//     console.log(jobId);
+
+//     jobTagsData = await getTagsById(jobId);
+//     console.log(jobTagsData);
+//     res.json({ success: true, payload: { jobTagsData, jobListingData } });
+//   } catch (err) {
+//     res.json(err.stack);
+//   }
+// });
 
 /*Create*/
 let job;
