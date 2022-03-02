@@ -56,14 +56,14 @@ router.get("/:location", async function (req, res) {
   }
 });
 
-router.get("/:jobId", async function (req, res) {
-  const jobId = req.params.jobId;
-  console.log(jobId);
+router.get("/job/:jobId", async function (req, res) {
+  console.log("here");
   try {
+    const jobId = req.params.jobId;
+    const jobListingData = await getJobDataById(jobId);
     const jobTagsData = await getTagsById(jobId);
     console.log(jobTagsData);
-    const jobListingData = await getJobDataById(jobId);
-    res.json({ success: true, payload: { jobTagsData, jobListingData } });
+    res.json({ success: true, payload: jobListingData });
   } catch (err) {
     res.json(err.stack);
   }
