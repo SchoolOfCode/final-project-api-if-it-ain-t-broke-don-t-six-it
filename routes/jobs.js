@@ -7,6 +7,7 @@ import {
   createJobTag,
   getAllJobsByLocationAndKeyword,
   getAllJobsByKeyword,
+  getJobDataById,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -51,6 +52,27 @@ router.get("/:location", async function (req, res) {
     });
   } catch (err) {
     res.status(500).json(err.stack);
+  }
+});
+
+let jobListingData;
+router.get("/:jobId", async function (req, res, next) {
+  const jobId = req.params.jobId;
+  try {
+    jobListingData = await getJobDataById(jobId);
+    next();
+  } catch (err) {
+    res.json(err.stack);
+  }
+});
+let jobTagsData;
+router.get("/:jobId", async function (req, res, next) {
+  const jobId = req.params.jobId;
+  try {
+    jobTagsData = await getTagsById(jobId);
+    next();
+  } catch (err) {
+    res.json(err.stack);
   }
 });
 

@@ -113,3 +113,24 @@ LIMIT 5 OFFSET $2;`,
   );
   return result.rows;
 }
+
+export async function getJobDataById(jobId) {
+  const result = await query(
+    `SELECT * FROM jobs 
+  INNER JOIN locations ON jobs.job_id = locations.job_id
+  WHERE job_id = $1
+  `,
+    [jobId]
+  );
+  return result.rows;
+}
+
+export async function getTagsById(jobId) {
+  const result = await query(
+    `SELECT * FROM tag
+   INNER JOIN job_tag ON tag.tag_id = job_tag.tag_id
+   WHERE job_id = $1
+   `,
+    [jobId]
+  );
+}
