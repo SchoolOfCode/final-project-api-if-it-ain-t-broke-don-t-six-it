@@ -63,7 +63,13 @@ router.get("/job/:jobId", async function (req, res) {
     const jobListingData = await getJobDataById(jobId);
     const jobTagsData = await getTagsById(jobId);
     console.log(jobTagsData);
-    res.json({ success: true, payload: jobListingData });
+    res.json({
+      success: true,
+      payload: {
+        jobListingData,
+        jobTagsData,
+      },
+    });
   } catch (err) {
     res.json(err.stack);
   }
