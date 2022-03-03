@@ -85,7 +85,7 @@ router.post("/", async function (req, res, next) {
     job = await createJob(req.body);
     next();
   } catch (err) {
-    console.log(err);
+    res.json(err.stack);
   }
 });
 
@@ -94,7 +94,7 @@ router.post("/", async function (req, res, next) {
     const createdTagId = await createJobTag(job.job_id, req.body.tags);
     next();
   } catch (err) {
-    console.log(err);
+    res.json(err.stack);
   }
 });
 
@@ -107,7 +107,7 @@ router.post("/", async function (req, res) {
       payload: { job, location, tags },
     });
   } catch (err) {
-    console.log(err);
+    res.json(err.stack);
   }
 });
 
@@ -118,7 +118,7 @@ router.post("/appliedUsers", async function (req, res) {
     const response = await addAppliedUser(job_id, user_id);
     res.json({ success: true, payload: response });
   } catch (err) {
-    console.log(err);
+    res.json(err.stack);
   }
 });
 
