@@ -138,3 +138,12 @@ export async function getTagsById(jobId) {
   console.log(result.rows);
   return result.rows;
 }
+
+export async function addAppliedUser(job_id, user_id) {
+  const result = await query(
+    `INSERT INTO applied_users (job_id,user_id) VALUES ($1,$2) RETURNING *;
+    `,
+    [job_id, user_id]
+  );
+  return result.rows[0];
+}

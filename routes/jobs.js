@@ -9,6 +9,7 @@ import {
   getAllJobsByKeyword,
   getJobDataById,
   getTagsById,
+  addAppliedUser,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -74,19 +75,6 @@ router.get("/job/:jobId", async function (req, res) {
     res.json(err.stack);
   }
 });
-// let jobTagsData;
-// router.get("/:jobId", async function (req, res) {
-//   const jobId = req.params.jobId;
-//   try {
-//     console.log(jobId);
-
-//     jobTagsData = await getTagsById(jobId);
-//     console.log(jobTagsData);
-//     res.json({ success: true, payload: { jobTagsData, jobListingData } });
-//   } catch (err) {
-//     res.json(err.stack);
-//   }
-// });
 
 /*Create*/
 let job;
@@ -118,6 +106,17 @@ router.post("/", async function (req, res) {
       success: true,
       payload: { job, location, tags },
     });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post("/appliedUsers", async function (req, res) {
+  const user_id = req.body.user_id;
+  const job_id = req.body.job_id;
+  try {
+    const response = await addAppliedUser(job_id, user_id);
+    res.json({ success: true, payload: response });
   } catch (err) {
     console.log(err);
   }
