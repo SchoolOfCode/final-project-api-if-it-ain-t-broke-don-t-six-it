@@ -10,6 +10,9 @@ import {
   getJobDataById,
   getTagsById,
   addAppliedUser,
+  getPendingJobsById,
+  getPostedJobsById,
+  getUpcomingJobsById,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -119,6 +122,36 @@ router.post("/appliedUsers", async function (req, res) {
     res.json({ success: true, payload: response });
   } catch (err) {
     res.json(err.stack);
+  }
+});
+
+router.get("/posted/:userId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const postedJobs = await getPostedJobsById(userId);
+    res.json({ success: true, payload: postedJobs });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.get("/pending/:userId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const pendingJobs = await getPendingJobsById(userId);
+    res.json({ success: true, payload: pendingJobs });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.get("/upcoming/:userId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const upcomingJobs = await getUpcomingJobsById(userId);
+    res.json({ success: true, payload: upcomingJobs });
+  } catch (error) {
+    res.json(error.stack);
   }
 });
 

@@ -147,3 +147,37 @@ export async function addAppliedUser(job_id, user_id) {
   );
   return result.rows[0];
 }
+
+export async function getPostedJobsById(userId) {
+  const result = await query(
+    `SELECT * FROM jobs 
+    INNER JOIN locations ON jobs.job_id = locations.job_id
+    WHERE jobs.user_id = $1`,
+    [userId]
+  );
+  return result.rows;
+}
+
+export async function getPendingJobsById(userId) {
+  const result = await query(
+    `SELECT * FROM jobs
+INNER JOIN locations ON jobs.job_id = locations.job_id
+INNER JOIN applied_users ON jobs.job_id = applied_users.job_id
+WHERE applied_users.user_id = $1 AND 
+jobs.status = 'open' `,
+    [userId]
+  );
+  return result.rows;
+}
+
+export async function getUpcomingJobsById(userId) {
+  const result = await query(
+    `SELECT * FROM jobs 
+    INNER JOIN locations on jobs.job_id = locations.job_id
+    WHERE jobs.accepted_user_id = $1
+    ORDER BY jobs.date DESC
+`,
+    [userId, Date.now()]
+  );
+  return result.rows;
+}
