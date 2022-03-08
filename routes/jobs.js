@@ -13,6 +13,10 @@ import {
   getPendingJobsById,
   getPostedJobsById,
   getUpcomingJobsById,
+  getFavouriteJobIdById,
+  getFavouriteJobById,
+  addFavouriteJob,
+  deleteFavouriteJob,
 } from "../models/jobs.js";
 
 const router = express.Router();
@@ -150,6 +154,51 @@ router.get("/upcoming/:userId", async function (req, res) {
     const userId = req.params.userId;
     const upcomingJobs = await getUpcomingJobsById(userId);
     res.json({ success: true, payload: upcomingJobs });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.put("/favourites", async function (req, res) {
+  try {
+    const userId = req.query.userId;
+    const jobId = req.query.jobId;
+    const addedFavouriteJob = addFavouriteJob(userId, jobId);
+    res.json({ success: true, payload: addedFavouriteJob });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.put("/favourites", async function (req, res) {
+  try {
+    const userId = req.query.userId;
+    const jobId = req.query.jobId;
+    const deletedFavouriteJob = deleteFavouriteJob(userId, jobId);
+    res.json({ success: true, payload: deletedFavouriteJob });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.get("/favourites", async function (req, res) {
+  try {
+    const userId = req.query.userId;
+    if (!userId) {
+      res.json({ success: false, payload: [] });
+    }
+    const favouriteJobsIds = getFavouriteJobIdById(userId);
+    res.json({ success: true, payload: favouriteJobsIds });
+  } catch (error) {
+    res.json(error.stack);
+  }
+});
+
+router.get("/favourites/:userId", async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const favouriteJobs = await getFavouriteJobById(userId);
+    res.json({ success: true, payload: favouriteJobs });
   } catch (error) {
     res.json(error.stack);
   }
