@@ -159,7 +159,7 @@ router.get("/upcoming/:userId", async function (req, res) {
   }
 });
 
-router.put("/favourites", async function (req, res) {
+router.post("/favourites", async function (req, res) {
   try {
     const userId = req.body.userId;
     const jobId = req.body.jobId;
@@ -181,13 +181,14 @@ router.delete("/favourites", async function (req, res) {
   }
 });
 
-router.get("/favourites", async function (req, res) {
+router.get("/favourites/jobId/:userId", async function (req, res) {
   try {
-    const userId = req.query.userId;
+    const userId = req.params.userId;
+    console.log(typeof userId);
     if (!userId) {
-      res.json({ success: false, payload: [] });
+      res.json({ success: false, payload: "here" });
     }
-    const favouriteJobsIds = getFavouriteJobIdById(userId);
+    const favouriteJobsIds = await getFavouriteJobIdById(userId);
     res.json({ success: true, payload: favouriteJobsIds });
   } catch (error) {
     res.json(error.stack);

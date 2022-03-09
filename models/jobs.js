@@ -186,20 +186,23 @@ export async function getFavouriteJobById(userId) {
   const result = await query(
     `SELECT * FROM jobs
     INNER JOIN locations on jobs.job_id = locations.job_id
-    INNER JOIN favourites on job.job_id = favourites.job_id
-    WHERE favourites.user_id = $1`,
+    INNER JOIN favourites on jobs.job_id = favourites.job_id
+    WHERE favourites.user_id = $1 ;`,
     [userId]
   );
+  console.log("wrong one");
+
   return result.rows;
 }
 
 export async function getFavouriteJobIdById(userId) {
+  console.log("here");
   const result = await query(
-    `SELECT job.job_id FROM jobs
-    INNER JOIN favourites on job.job_id = favourites.job_id
-    WHERE favourites.user_id = $1`,
+    `SELECT job_id FROM favourites
+    WHERE user_id = $1`,
     [userId]
   );
+  console.log(result);
   return result.rows;
 }
 
@@ -210,12 +213,12 @@ export async function addFavouriteJob(userId, jobId) {
   `,
     [userId, jobId]
   );
-  return result.rows[0];
+  return result.rows;
 }
 export async function deleteFavouriteJob(userId, jobId) {
   const result = await query(
     `
-  DELETE * FROM favourites WHERE user_id = $1 AND job_id = $2 RETURNING * ;
+  DELETE FROM favourites WHERE user_id = $1 AND job_id = $2 RETURNING * ;
   `,
     [userId, jobId]
   );
