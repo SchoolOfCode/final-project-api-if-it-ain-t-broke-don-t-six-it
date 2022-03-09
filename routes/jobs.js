@@ -189,7 +189,10 @@ router.get("/favourites/jobId/:userId", async function (req, res) {
       res.json({ success: false, payload: "here" });
     }
     const favouriteJobsIds = await getFavouriteJobIdById(userId);
-    res.json({ success: true, payload: favouriteJobsIds });
+    const favouriteJobsIdsArr = favouriteJobsIds.reduce((acc, curr) => {
+      return [...acc, curr.job_id];
+    }, []);
+    res.json({ success: true, payload: favouriteJobsIdsArr });
   } catch (error) {
     res.json(error.stack);
   }
